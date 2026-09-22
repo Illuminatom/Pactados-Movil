@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <background android:drawable="@color/pactadosicon_background"/>
+    <foreground android:drawable="@mipmap/pactadosicon_foreground"/>
+    <monochrome android:drawable="@mipmap/pactadosicon_foreground"/>
+</adaptive-icon>

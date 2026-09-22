@@ -35,7 +35,7 @@ class MainActivity : ComponentActivity() {
 
                     NavHost(
                         navController = navController,
-                        startDestination = "profile"
+                        startDestination = "login"
                     ) {
 
                         // Pantalla de Login
