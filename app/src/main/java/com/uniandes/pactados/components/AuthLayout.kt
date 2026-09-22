@@ -71,7 +71,7 @@ fun AuthButton(
         onClick = onClick,
         modifier = modifier,
         shape = RoundedCornerShape(16.dp),
-        contentPadding = PaddingValues(horizontal = 32.dp), // Padding lateral para que respire
+        contentPadding = PaddingValues(horizontal = 14.dp), // Padding lateral para que respire
         colors = ButtonDefaults.buttonColors(containerColor = MainOrange)
     ) {
         Text(
@@ -126,7 +126,9 @@ fun BackButton(onClick: () -> Unit) {
 @Composable
 fun AuthPopup(
     title: String,
-    message: String
+    message: String,
+    showAppHeader: Boolean = false,
+    content: @Composable () -> Unit = {} // OPCIONAL
 ) {
     Dialog(onDismissRequest = {}) {
         Card(
@@ -139,15 +141,25 @@ fun AuthPopup(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp),
+                    .padding(24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                if (showAppHeader) {
+                    Text(
+                        text = "pactados",
+                        fontWeight = FontWeight.Bold,
+                        color = Color.Black,
+                        fontSize = 16.sp
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                }
                 Text(
                     text = title,
                     fontWeight = FontWeight.Bold,
                     color = Color.Black,
-                    fontSize = 28.sp,
-                    modifier = Modifier.padding(bottom = 16.dp)
+                    fontSize = if (showAppHeader) 20.sp else 28.sp,
+                    modifier = Modifier.padding(bottom = 16.dp),
+                    textAlign = TextAlign.Center
                 )
                 Text(
                     text = message,
@@ -155,6 +167,8 @@ fun AuthPopup(
                     textAlign = TextAlign.Center,
                     fontSize = 16.sp
                 )
+
+                content()
             }
         }
     }

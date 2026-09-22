@@ -30,7 +30,10 @@ import com.uniandes.pactados.components.PactadosBottomBar
 import com.uniandes.pactados.ui.theme.*
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    onProfileClick: () -> Unit,
+    onStreakClick: () -> Unit,
+) {
     var selectedTab by remember { mutableStateOf(1) }
 
     val navItems = listOf(
@@ -43,7 +46,13 @@ fun HomeScreen() {
         bottomBar = {
             PactadosBottomBar(
                 selectedIndex = selectedTab,
-                onItemSelected = { selectedTab = it },
+                onItemSelected = { index ->
+                    selectedTab = index
+                    when (index) {
+                        0 -> onProfileClick()
+                        2 -> onStreakClick
+                    }
+                },
                 items = navItems
             )
         }

@@ -13,6 +13,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.uniandes.pactados.screens.HomeScreen
 import com.uniandes.pactados.screens.LoginScreen
+import com.uniandes.pactados.screens.ProfileScreen
 import com.uniandes.pactados.screens.RecoverPasswordScreen
 import com.uniandes.pactados.screens.RegisterScreen
 import com.uniandes.pactados.ui.theme.PactadosTheme
@@ -34,7 +35,7 @@ class MainActivity : ComponentActivity() {
 
                     NavHost(
                         navController = navController,
-                        startDestination = "login"
+                        startDestination = "profile"
                     ) {
 
                         // Pantalla de Login
@@ -72,7 +73,23 @@ class MainActivity : ComponentActivity() {
 
                         // Pantalla de inicio
                         composable("home") {
-                            HomeScreen()
+                            HomeScreen(
+                                onProfileClick = { navController.navigate("profile")},
+                                onStreakClick = { /* TODO: Navegacion a Racha*/}
+                            )
+                        }
+
+                        // Pantalla de Perfil
+                        composable("profile") {
+                            ProfileScreen(
+                                onHomeClick = { navController.navigate("home")},
+                                onStreakClick = { /* TODO: Navegacion a Racha */},
+                                onLogoutClick = {
+                                    navController.navigate("login"){
+                                        popUpTo(0)
+                                    }
+                                }
+                            )
                         }
                     }
 
