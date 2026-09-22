@@ -16,6 +16,11 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.uniandes.pactados.components.AuthButton
+import com.uniandes.pactados.components.AuthLogo
+import com.uniandes.pactados.components.AuthPopup
+import com.uniandes.pactados.components.AuthTextField
+import com.uniandes.pactados.components.BackButton
 import kotlinx.coroutines.delay
 import com.uniandes.pactados.ui.theme.*
 

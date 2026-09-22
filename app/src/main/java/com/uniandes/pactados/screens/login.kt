@@ -16,12 +16,16 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.uniandes.pactados.components.AuthButton
+import com.uniandes.pactados.components.AuthLogo
+import com.uniandes.pactados.components.AuthTextField
 import com.uniandes.pactados.ui.theme.*
 
 @Composable
 fun LoginScreen(
     onRegisterClick: () -> Unit,
-    onRecoverClick: () -> Unit
+    onRecoverClick: () -> Unit,
+    onLoginClick: () -> Unit
 ) {
     var celular by remember { mutableStateOf("") }
     var contrasena by remember { mutableStateOf("") }
@@ -105,7 +109,7 @@ fun LoginScreen(
                     contrasenaError = contrasena.isBlank()
 
                     if (!celularError && !contrasenaError) {
-                        /* TODO: Logica del login */
+                        onLoginClick()
                     }
                 }
             )

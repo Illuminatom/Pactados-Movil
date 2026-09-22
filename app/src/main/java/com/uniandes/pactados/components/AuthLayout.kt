@@ -1,4 +1,4 @@
-package com.uniandes.pactados.screens
+package com.uniandes.pactados.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -77,7 +77,7 @@ fun AuthButton(
         Text(
             text = text,
             color = BlackText,
-            fontSize = 16.sp,
+            fontSize = 22.sp,
             fontWeight = FontWeight.Medium,
             textAlign = TextAlign.Center,
             maxLines = 1,

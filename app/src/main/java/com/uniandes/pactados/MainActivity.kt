@@ -3,12 +3,15 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.uniandes.pactados.screens.HomeScreen
 import com.uniandes.pactados.screens.LoginScreen
 import com.uniandes.pactados.screens.RecoverPasswordScreen
 import com.uniandes.pactados.screens.RegisterScreen
@@ -17,6 +20,12 @@ import com.uniandes.pactados.ui.theme.PactadosTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        val controller = WindowCompat.getInsetsController(window, window.decorView)
+        controller.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        controller.hide(WindowInsetsCompat.Type.systemBars())
+
         setContent {
             PactadosTheme {
                 Surface(modifier = Modifier.fillMaxSize()) {
@@ -32,11 +41,13 @@ class MainActivity : ComponentActivity() {
                         composable("login") {
                             LoginScreen(
                                 onRegisterClick = {
-                                    // Al hacer clic, navegamos a la ruta "registro"
                                     navController.navigate("registro")
                                 },
                                 onRecoverClick = {
                                     navController.navigate("recuperar")
+                                },
+                                onLoginClick = {
+                                    navController.navigate("home")
                                 }
                             )
                         }
@@ -57,6 +68,11 @@ class MainActivity : ComponentActivity() {
                                 onRecoverSuccess = { navController.popBackStack()
                                 }
                             )
+                        }
+
+                        // Pantalla de inicio
+                        composable("home") {
+                            HomeScreen()
                         }
                     }
 
