@@ -9,55 +9,66 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.delay
 import com.uniandes.pactados.ui.theme.*
 
 @Composable
-fun LoginScreen(
-    onRegisterClick: () -> Unit,
-    onRecoverClick: () -> Unit
+fun RegisterScreen(
+    onBackClick: () -> Unit,
+    onRegisterSuccess: () -> Unit
 ) {
     var celular by remember { mutableStateOf("") }
+    var nombre by remember { mutableStateOf("") }
     var contrasena by remember { mutableStateOf("") }
 
     // Estados de error
     var celularError by remember { mutableStateOf(false) }
+    var nombreError by remember { mutableStateOf(false) }
     var contrasenaError by remember { mutableStateOf(false) }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(BackgroundCream)
-            .systemBarsPadding()
-            .imePadding()
-            .verticalScroll(rememberScrollState()),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
+    var showPopup by remember { mutableStateOf(false) }
 
-        AuthLogo()
+    LaunchedEffect(showPopup) {
+        if (showPopup) {
+            delay(3000L)
+            showPopup = false
+            onRegisterSuccess()
+        }
+    }
 
+    Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 24.dp),
+                .fillMaxSize()
+                .background(BackgroundCream)
+                .systemBarsPadding()
+                .imePadding()
+                .blur(radius = if (showPopup) 12.dp else 0.dp)
+                .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+
+            AuthLogo()
+
             Column(
-                modifier = Modifier.fillMaxWidth(0.85f),
+                modifier = Modifier
+                    .fillMaxWidth(0.85f)
+                    .padding(horizontal = 24.dp),
                 horizontalAlignment = Alignment.Start
             ) {
                 Text(
-                    text = "Bienvenido",
+                    text = "Registro",
                     color = OrangeText,
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(bottom = 16.dp)
+                    modifier = Modifier.padding(bottom = 24.dp)
                 )
 
                 AuthTextField(
@@ -73,6 +84,23 @@ fun LoginScreen(
                 )
                 Box(modifier = Modifier.height(16.dp).padding(start = 8.dp), contentAlignment = Alignment.CenterStart) {
                     if (celularError) {
+                        Text("Este campo es obligatorio", color = Color.Red, fontSize = 10.sp)
+                    }
+                }
+
+                AuthTextField(
+                    value = nombre,
+                    onValueChange = {
+                        nombre = it
+                        nombreError = false
+                    },
+                    label = "Nombre",
+                    placeholder = "Nombre Completo",
+                    isError = nombreError,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)
+                )
+                Box(modifier = Modifier.height(16.dp).padding(start = 8.dp), contentAlignment = Alignment.CenterStart) {
+                    if (nombreError) {
                         Text("Este campo es obligatorio", color = Color.Red, fontSize = 10.sp)
                     }
                 }
@@ -99,40 +127,29 @@ fun LoginScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             AuthButton(
-                text = "Iniciar Sesión",
+                text = "Crear Cuenta",
                 onClick = {
                     celularError = celular.isBlank()
+                    nombreError = nombre.isBlank()
                     contrasenaError = contrasena.isBlank()
 
-                    if (!celularError && !contrasenaError) {
-                        /* TODO: Logica del login */
+                    if (!celularError && !nombreError && !contrasenaError) {
+                        showPopup = true
                     }
                 }
             )
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(32.dp))
+        }
 
-            TextButton(onClick = onRecoverClick) {
-                Text(
-                    text = "¿Olvidaste tu\ncontraseña?",
-                    color = BlackText,
-                    textAlign = TextAlign.Center,
-                    fontSize = 14.sp,
-                    lineHeight = 20.sp
-                )
-            }
+        // Flecha de retroceso absoluta fuera del scroll
+        BackButton(onClick = onBackClick)
 
-            Spacer(modifier = Modifier.height(8.dp))
-
-            TextButton(onClick = onRegisterClick ) {
-                Text(
-                    text = "Crea tu\ncuenta",
-                    color = BlackText,
-                    textAlign = TextAlign.Center,
-                    fontSize = 14.sp,
-                    lineHeight = 20.sp
-                )
-            }
+        if (showPopup) {
+            AuthPopup(
+                title = "Cuenta Creada",
+                message = "Tu cuenta ha sido creada\nsatisfactoriamente",
+            )
         }
     }
 }
