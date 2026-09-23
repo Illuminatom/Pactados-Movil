@@ -16,6 +16,7 @@ import com.uniandes.pactados.screens.LoginScreen
 import com.uniandes.pactados.screens.ProfileScreen
 import com.uniandes.pactados.screens.RecoverPasswordScreen
 import com.uniandes.pactados.screens.RegisterScreen
+import com.uniandes.pactados.screens.StreakScreen
 import com.uniandes.pactados.ui.theme.PactadosTheme
 
 class MainActivity : ComponentActivity() {
@@ -35,7 +36,7 @@ class MainActivity : ComponentActivity() {
 
                     NavHost(
                         navController = navController,
-                        startDestination = "login"
+                        startDestination = "streak"
                     ) {
 
                         // Pantalla de Login
@@ -75,7 +76,7 @@ class MainActivity : ComponentActivity() {
                         composable("home") {
                             HomeScreen(
                                 onProfileClick = { navController.navigate("profile")},
-                                onStreakClick = { /* TODO: Navegacion a Racha*/}
+                                onStreakClick = { navController.navigate("streak")}
                             )
                         }
 
@@ -83,12 +84,21 @@ class MainActivity : ComponentActivity() {
                         composable("profile") {
                             ProfileScreen(
                                 onHomeClick = { navController.navigate("home")},
-                                onStreakClick = { /* TODO: Navegacion a Racha */},
+                                onStreakClick = { navController.navigate("streak")},
                                 onLogoutClick = {
                                     navController.navigate("login"){
                                         popUpTo(0)
                                     }
                                 }
+                            )
+                        }
+
+                        // Pantalla de Racha
+                        composable("streak") {
+                            StreakScreen(
+                                onHomeClick = { navController.navigate("home")},
+                                onProfileClick = {navController.navigate("profile")},
+                                onBackClick = { navController.navigate("Home")}
                             )
                         }
                     }

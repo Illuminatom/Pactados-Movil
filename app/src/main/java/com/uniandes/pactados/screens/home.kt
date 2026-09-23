@@ -50,7 +50,7 @@ fun HomeScreen(
                     selectedTab = index
                     when (index) {
                         0 -> onProfileClick()
-                        2 -> onStreakClick
+                        2 -> onStreakClick()
                     }
                 },
                 items = navItems

@@ -8,4 +8,4 @@ val OrangeBorder = Color(0xFFFF570F)    // Bordes de cajas de texto
 val MainOrange = Color(0xFFFF9C40)      // Botones principales, barra de navegación, contraste
 val PopupBackground = Color(0xFFFFB36C) // Fondo de ventanas emergentes
 val BackgroundCream = Color(0xFFFFF6F0) // Fondo general de la app
-
+val ClearButtonBackground = Color(0xFFD1A5) //Fondo de los botones claros en Racha y Elegir cancion

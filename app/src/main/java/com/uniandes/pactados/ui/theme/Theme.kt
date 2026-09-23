@@ -40,7 +40,6 @@ fun PactadosTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        // typography = Typography, // Descomenta si agregas tipografías personalizadas después
         content = content
     )
 }
