@@ -16,6 +16,7 @@ import androidx.compose.material.icons.filled.MusicNote
 import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
@@ -51,8 +52,9 @@ import java.util.Calendar
 @Composable
 fun NewAlarmScreen(
     onBackClick: () -> Unit,
-    onChooseSongClick: () -> Unit,
-    onFinished: () -> Unit
+    onChooseSongClick: (String?) -> Unit,
+    onFinished: () -> Unit,
+    selectedSong: String? = null
 ) {
     val now = remember { Calendar.getInstance() }
 
@@ -68,6 +70,7 @@ fun NewAlarmScreen(
         initialName = "",
         initialDescription = "",
         initialSong = null,
+        selectedSong = selectedSong,
         popup = AlarmPopupStyle(
             title = "Alarma Creada",
             message = "Haz creado una alarma nueva",
@@ -93,8 +96,9 @@ fun NewAlarmScreen(
 fun EditAlarmScreen(
     alarmId: Int,
     onBackClick: () -> Unit,
-    onChooseSongClick: () -> Unit,
-    onFinished: () -> Unit
+    onChooseSongClick: (String?) -> Unit,
+    onFinished: () -> Unit,
+    selectedSong: String? = null
 ) {
     val alarm = remember(alarmId) { AlarmRepository.get(alarmId) }
 
@@ -116,6 +120,7 @@ fun EditAlarmScreen(
         initialName = alarm.name,
         initialDescription = alarm.description,
         initialSong = alarm.song,
+        selectedSong = selectedSong,
         popup = AlarmPopupStyle(
             title = "Guardado",
             message = "La alarma ha sido modificada\nsatisfactoriamente",
@@ -164,16 +169,20 @@ fun AlarmFormScreen(
     initialSong: String?,
     popup: AlarmPopupStyle,
     onBackClick: () -> Unit,
-    onChooseSongClick: () -> Unit,
+    onChooseSongClick: (String?) -> Unit,
     onSubmit: (hour: Int, minute: Int, name: String, description: String, song: String?) -> Unit,
-    onFinished: () -> Unit
+    onFinished: () -> Unit,
+    selectedSong: String? = null
 ) {
-    var hour by remember { mutableIntStateOf(initialHour) }
-    var minute by remember { mutableIntStateOf(initialMinute) }
-    var nombre by remember { mutableStateOf(initialName) }
-    var descripcion by remember { mutableStateOf(initialDescription) }
-    // TODO: se actualizara cuando exista la pantalla Elegir Cancion
-    val cancion by remember { mutableStateOf(initialSong) }
+    var hour by rememberSaveable { mutableIntStateOf(initialHour) }
+    var minute by rememberSaveable { mutableIntStateOf(initialMinute) }
+    var nombre by rememberSaveable { mutableStateOf(initialName) }
+    var descripcion by rememberSaveable { mutableStateOf(initialDescription) }
+    var cancion by rememberSaveable { mutableStateOf(initialSong) }
+
+    LaunchedEffect(selectedSong) {
+        if (selectedSong != null) cancion = selectedSong
+    }
 
     var nombreError by remember { mutableStateOf(false) }
     var showPopup by remember { mutableStateOf(false) }
@@ -252,7 +261,7 @@ fun AlarmFormScreen(
 
             ChooseSongButton(
                 song = cancion,
-                onClick = onChooseSongClick,
+                onClick = { onChooseSongClick(cancion) },
                 modifier = Modifier.padding(horizontal = 49.dp)
             )
 

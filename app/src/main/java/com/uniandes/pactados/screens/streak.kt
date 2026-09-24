@@ -40,7 +40,9 @@ import com.uniandes.pactados.ui.theme.*
 fun StreakScreen(
     onHomeClick: () -> Unit,
     onProfileClick: () -> Unit,
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    onRecordsClick: () -> Unit = {},
+    onCalendarClick: () -> Unit = {}
 ) {
 
     var selectedTab by remember { mutableStateOf(2) }
@@ -222,9 +224,9 @@ fun StreakScreen(
             Spacer(modifier = Modifier.height(48.dp))
 
             // Botones
-            StreakOutlineButton(text = "Ver Calendario", onClick = { /* TODO: Navegar a Calendario */ })
+            StreakOutlineButton(text = "Ver Calendario", onClick = onCalendarClick)
             Spacer(modifier = Modifier.height(16.dp))
-            StreakOutlineButton(text = "Ver Registros", onClick = { /* TODO: Navegar a Registros */ })
+            StreakOutlineButton(text = "Ver Registros", onClick = onRecordsClick)
 
             Spacer(modifier = Modifier.height(32.dp))
         }
