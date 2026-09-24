@@ -27,12 +27,15 @@ import com.uniandes.pactados.R
 import com.uniandes.pactados.components.AuthButton
 import com.uniandes.pactados.components.BottomNavItem
 import com.uniandes.pactados.components.PactadosBottomBar
+import com.uniandes.pactados.data.AlarmRepository
 import com.uniandes.pactados.ui.theme.*
 
 @Composable
 fun HomeScreen(
     onProfileClick: () -> Unit,
     onStreakClick: () -> Unit,
+    onAlarmsClick: () -> Unit,
+    onCreateAlarmClick: () -> Unit
 ) {
     var selectedTab by remember { mutableStateOf(1) }
 
@@ -133,8 +136,8 @@ fun HomeScreen(
 
                     MetricCard(
                         title = "Alarmas Activas",
-                        value = "4",
-                        onClick = { /* TODO: Navegar a Alarmas */ }
+                        value = AlarmRepository.alarms.count { it.enabled }.toString(),
+                        onClick = onAlarmsClick
                     )
 
                     Spacer(modifier = Modifier.height(24.dp))
@@ -150,7 +153,7 @@ fun HomeScreen(
                     Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
                         AuthButton(
                             text = "Crear Alarma",
-                            onClick = { /* TODO: Navegar a crear */ }
+                            onClick = onCreateAlarmClick
                         )
                     }
                 }
